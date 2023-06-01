@@ -257,7 +257,7 @@ With webpack you will have to import the css framework in slightly different way
 
 ### main.{js/ts}
 
-````javascript
+```javascript
 import style from './style.css?raw'
 ```
 
@@ -287,4 +287,3 @@ If you find a bug or have a feature request, please open an issue on the reposit
 ## License
 
 This project is licensed under the MIT License
-````
