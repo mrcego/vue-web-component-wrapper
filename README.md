@@ -259,7 +259,7 @@ With webpack you will have to import the css framework in slightly different way
 
 ````javascript
 import style from './style.css?raw'
-```SS
+```
 
 </details>
 
