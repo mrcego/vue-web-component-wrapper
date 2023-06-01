@@ -138,7 +138,7 @@ export default defineConfig({
 })
 ```
 
-In your main.js/ts file, you will have to import the css framework in slightly different way than webpack with `?inline` at the end of the import statement, (see how it works)[https://vitejs.dev/guide/features.html#disabling-css-injection-into-the-page]. This leads to a new issue with fonts, which are not loaded when using `?inline`. To workaround this, you can import the font css in the App.vue file.
+In your main.js/ts file, you will have to import the css framework in slightly different way than webpack with `?inline` at the end of the import statement, [see how it works](https://vitejs.dev/guide/features.html#disabling-css-injection-into-the-page). This leads to a new issue with fonts, which are not loaded when using `?inline`. To workaround this, you can import the font css in the App.vue file.
 
 ### main.js/ts
 
