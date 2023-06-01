@@ -1,22 +1,27 @@
-
-
 # vue-web-component-wrapper
 
 ## Introduction
+
 `vue-web-component-wrapper` is a powerful Vue 3 plugin designed for transforming full-fledged Vue applications into reusable web components (custom elements). These web components can be integrated into any website, enhancing flexibility and reusability.
 
 ## Why use `vue-web-component-wrapper`?
+
 As of now, Vue 3 does not support the creation of full aplication as web components out of the box. This plugin aims to solve this problem by providing a simple and easy-to-use solution for creating web components from Vue applications. It also provides support for Vue ecosystem plugins such as [Vuex](https://vuex.vuejs.org/) or [Pinia](https://pinia.vuejs.org/), [Vue Router](https://router.vuejs.org/), [Vue I18n](https://vue-i18n.intlify.dev/) and [VeeValidate](https://vee-validate.logaretm.com/v4/).
+
 ## Demo
+
 Check out these demo projects to see `vue-web-component-wrapper` in action:
-- **Webpack implentaion**: Check out this [Webpack Demo Project](https://stackblitz.com/edit/vue-web-component-wrapper?file=README.md&startScript=webpack-demo)
-- **Vite.js implentaion**: Check out this [Vite Demo Project](https://stackblitz.com/edit/vue-web-component-wrapper?file=README.md&startScript=vite-demo)
+
+- **Webpack implementation**: Check out this [Webpack Demo Project](https://stackblitz.com/edit/vue-web-component-wrapper?file=README.md&startScript=webpack-demo)
+- **Vite.js implementation**: Check out this [Vite Demo Project](https://stackblitz.com/edit/vue-web-component-wrapper?file=README.md&startScript=vite-demo)
 
 ## Documentation
+
 Check out the [Docs](https://erangrin.github.io/vue-web-component-wrapper)
 
 ## Key Features:
-- **Vue Plugins Compatibility**: Seamlessly integrates with Vue ecosystem plugins such as Vuex, Vue Router, and Vue I18n.
+
+- **Vue Plugins Compatibility**: Seamlessly integrates with Vue ecosystem plugins such as Vuex/Pinia, Vue Router, Vue I18n and VeeValidate.
 - **CSS Framework Support**: Works with popular CSS frameworks like Tailwind CSS, Bootstrap.
 - **CSS Preprocessor Support**: Allows you to use CSS preprocessors like SCSS and LESS.
 - **Scoped CSS**: Allows you to use scoped css in your components.
@@ -37,19 +42,22 @@ pnpm add vue-web-component-wrapper
 To create a web component using `vue-web-component-wrapper`, follow the steps below:
 
 1. **Import the necessary modules** in your entry file:
+
 ```javascript
-import App from './App.vue';
-import tailwindStyles from './assets/tailwind.css?raw';
-import { createWebHashHistory, createRouter } from "vue-router";
-import { createI18n } from 'vue-i18n';
+import App from './App.vue'
+import tailwindStyles from './assets/tailwind.css?raw'
+import { createWebHashHistory, createRouter } from 'vue-router'
+import { createI18n } from 'vue-i18n'
 import { createStore } from 'vuex'
 import { createPinia } from 'pinia'
 import { defaultRoutes } from './main.routes.js'
 import { store } from './store/index.js'
-import { defineCustomElement as VueDefineCustomElement, h, createApp, getCurrentInstance } from 'vue';
-import { createWebComponent } from 'vue-web-component-wrapper';
+import { defineCustomElement as VueDefineCustomElement, h, createApp, getCurrentInstance } from 'vue'
+import { createWebComponent } from 'vue-web-component-wrapper'
 ```
+
 2. **Set up the instances** and use your plugins. This is where you configure your Vuex/Pinia store, Vue router, and other Vue plugins.
+
 ```javascript
 export const pluginsWrapper = {
   install(GivenVue: any) {
@@ -79,7 +87,9 @@ export const pluginsWrapper = {
   },
 }
 ```
+
 3. **Create your web component** using `createWebComponent`. It takes an options object where you specify your root Vue component, the element name for your custom element, any plugins you want to use, and any CSS framework styles.
+
 ```javascript
 createWebComponent({
   rootComponent: App,
@@ -89,10 +99,12 @@ createWebComponent({
   VueDefineCustomElement,
   h,
   createApp,
-  getCurrentInstance
-});
+  getCurrentInstance,
+})
 ```
+
 Each option in the `createWebComponent` function has a specific purpose:
+
 - `rootComponent`: The root component of your Vue application.
 - `elementName`: The tag name for your custom web component. It must contain a hyphen and be lowercase.
 - `plugins`: Any Vue plugins you want to use in your application.
@@ -103,12 +115,11 @@ Each option in the `createWebComponent` function has a specific purpose:
 - `getCurrentInstance`: The `getCurrentInstance` function from Vue.
 
 4. **Build your application**. You can use your favorite bundler to build your application.
+
 ## Bundlers Configuration
 
 <details>
 <summary>Vite Configuration</summary>
-## Vite.js Configuration
-
 Here's a sample Vite configuration. Comparing with Webpack, Vite.js is able to handle assets files like .css and .scss, and media files, importing them as you do regularly. Vue files will be parsed using oficial [@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) depending of config. If you would like to add plugins for Vite, just install them with your favorite Node package manager.
 
 ```javascript
@@ -126,15 +137,20 @@ export default defineConfig({
   ],
 })
 ```
-In your main.js/ts file, you will have to import the css framework in slightly different way then webpack with ```?inline``` at the end of the import statement.
-This leads to a new iusse with fonts, which are not loaded when using ```?inline```. To fix this, you can import the font css in the App.vue file.
+
+In your main.js/ts file, you will have to import the css framework in slightly different way than webpack with `?inline` at the end of the import statement, (see how it works)[https://vitejs.dev/guide/features.html#disabling-css-injection-into-the-page]. This leads to a new issue with fonts, which are not loaded when using `?inline`. To workaround this, you can import the font css in the App.vue file.
+
 ### main.js/ts
+
 ```javascript
 // ?inline can not handle import url() in css therefore fonts are not loaded, workaround is to add font css to the App.vue
-import style from './style.css?inline' 
+import style from './style.css?inline'
 ```
+
 Workaround for fonts:
+
 ### App.vue
+
 ```css
 <style>
 header  {
@@ -146,9 +162,8 @@ main {
 }
 </style>
 ```
+
 </details>
-
-
 
 <details>
 <summary>Webpack Configuration</summary>
@@ -158,9 +173,9 @@ main {
 Here's a sample webpack configuration that helps webpack understand how to load and process .vue, .css, and .scss files. It also sets up an HTML plugin for webpack.
 
 ```javascript
-const path = require('path');
-const { VueLoaderPlugin } = require('vue-loader');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'production',
@@ -175,7 +190,7 @@ module.exports = {
         test: /\.(vue|ce\.vue)$/,
         loader: 'vue-loader',
         options: {
-            customElement: true,
+          customElement: true,
         },
       },
       {
@@ -235,25 +250,31 @@ module.exports = {
     },
     extensions: ['.js', '.vue', '.json'],
   },
-};
+}
+```
 
-```
-With webpack you will have to import the css framework in slightly different way then vite with ```?raw``` at the end of the import statement.
-### main.js/ts
-```javascript
-import style from './style.css?raw' 
-```
+With webpack you will have to import the css framework in slightly different way than vite with `?raw` at the end of the import statement.
+
+### main.{js/ts}
+
+````javascript
+import style from './style.css?raw'
+```SS
+
 </details>
 
 ## Tips
+
 - **Testing Production Build**: the easiest way to test your production build is to run a local server in the `dist` folder. I use [valet](https://laravel.com/docs/10.x/valet) for this, but any local server should work.
+
 ## Future Plans
 
 1. **TypeScript Support**: Adding proper strict types.
 
-
 ## Contributing
+
 Contributions are welcome! To contribute to the project, please follow these steps:
+
 - Fork the repository
 - Create a new branch for your feature or bug fix
 - Make your changes and commit them with a clear message
@@ -264,5 +285,6 @@ Please make sure to follow the code style and conventions used in the project.
 If you find a bug or have a feature request, please open an issue on the repository.
 
 ## License
-This project is licensed under the MIT License
 
+This project is licensed under the MIT License
+````
